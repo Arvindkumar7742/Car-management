@@ -5,6 +5,7 @@ const app = express();
 const cors = require('cors');
 const { cloudinaryConnect } = require("./config/cloudinary");
 const userRoutes = require("./routes/User");
+const carRoutes = require("./routes/Car");
 
 //To fetch the dotenv variable
 require("dotenv").config();
@@ -33,6 +34,7 @@ app.use(
 
 //use all the routes 
 app.use("/api/v1/auth", userRoutes);
+app.use("/api/v1/car", carRoutes);
 
 const PORT = process.env.PORT;
 app.listen(PORT,()=>{

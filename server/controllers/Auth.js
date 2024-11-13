@@ -22,7 +22,6 @@ exports.signup = async (req, res) => {
             !email ||
             !password
         ) {
-            console.log("printing the req body email::",req);
             return res.status(403).send({
                 success: false,
                 message: "All Fields are required",
@@ -80,7 +79,7 @@ exports.login = async (req, res) => {
         }
 
         // Find user with provided email
-        const user = await User.findOne({ email }).populate('Car');
+        const user = await User.findOne({ email });
 
         // If user not found with provided email
         if (!user) {

@@ -12,7 +12,6 @@ const userSchema = new mongoose.Schema(
 			required: true,
 			trim: true,
 		},
-
 		email: {
 			type: String,
 			required: true,
@@ -28,7 +27,7 @@ const userSchema = new mongoose.Schema(
 		cars: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: "Car",
+				ref: "car",
 			},
 		]
     }
