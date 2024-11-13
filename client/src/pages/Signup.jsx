@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../ContextAPI/UserContext";
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
+import { Signup } from "../services/operations/authOperation";
 
 function SignUp() {
 
@@ -10,6 +13,7 @@ function SignUp() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [address, setAddress] = useState("");
   const { user } = useContext(UserContext);
 
@@ -21,14 +25,17 @@ function SignUp() {
   async function submitHandler(e) {
     e.preventDefault();
     if (validateEmail()) {
-      // User registration logic here
-      setFirstName("");
-      setLastName("");
-      setAddress("");
-      setEmail("");
-      setPassword("");
-      toast.success("Account created successfully!");
-      return;
+      try {
+        await Signup( firstName, lastName, email, password,address );
+        setFirstName("");
+        setLastName("");
+        setAddress("");
+        setEmail("");
+        setPassword("");
+        navigate("/login");
+      } catch (error) {
+        console.log("error while calling signUp in the login page::", error);
+      }
     } else {
       toast.error("Enter a valid Email");
       return;
@@ -102,15 +109,23 @@ function SignUp() {
             <label className="block text-gray-700 font-medium mb-2" htmlFor="password">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              placeholder="Enter your password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={password}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                placeholder="Enter your password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <span
+                className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+              </span>
+            </div>
           </div>
 
           {/* Address */}
