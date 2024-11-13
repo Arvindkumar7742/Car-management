@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink, matchPath, useLocation } from 'react-router-dom'
 import * as icons from "react-icons/vsc"
-import { FaCar } from "react-icons/fa";
 
 export const SidebarLink = ({ name, path, icon }) => {
   const Icon = icons[icon];
@@ -15,9 +14,7 @@ export const SidebarLink = ({ name, path, icon }) => {
         {
           matchRoute(path) && <div className='w-[0.2rem] h-full bg-yellow-100 absolute top-0 left-0'></div>
         }
-        {
-          name === "Register car" ? <FaCar /> : <Icon />
-        }
+        <Icon />
         <p>{name}</p>
       </div>
     </NavLink>

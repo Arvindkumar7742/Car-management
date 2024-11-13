@@ -12,6 +12,9 @@ import { useContext } from 'react';
 import { UserContext } from './ContextAPI/UserContext';
 import { PrivateRoute } from "./pages/PrivateRoute"
 import { Dashboard } from './pages/Dashboard';
+import MyProfile from './dashboard/MyProfile';
+import { YourCars } from './dashboard/YourCars';
+import { AddCar } from './dashboard/AddCar';
 
 function App() {
 
@@ -25,7 +28,9 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/login' element={<Login />} />
           <Route element={<PrivateRoute><Dashboard /></PrivateRoute>}>
-
+            <Route path="/dashboard/my-profile" element={<MyProfile />}></Route>
+            <Route path="/dashboard/add-car" element={<AddCar />}></Route>
+            <Route path="/dashboard/your-cars" element={<YourCars />}></Route>
           </Route>
           <Route path='*' element={<NotFoundPage />}></Route>
         </Routes>

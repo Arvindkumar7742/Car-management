@@ -24,7 +24,6 @@ export const Sidebar = () => {
       }
       <div className='bg-indigo-700 ml-3 mr-3 mt-5 h-[0.01rem] w-5/11 mx-auto'></div>
       <div className='flex flex-col'>
-        <SidebarLink name="Settings" path="/dashboard/settings" icon="VscSettingsGear" />
         <button
           onClick={() => {
             setConfirmationmodal({
