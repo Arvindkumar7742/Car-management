@@ -18,7 +18,7 @@ function HomePage() {
       {/* User Greeting or Navigation Buttons */}
       {
         user ? <div className="text-2xl font-semibold text-blue-800 bg-blue-300 py-3 px-5 rounded-lg shadow-md inline-block">
-          Welcome, <span className="text-blue-600">{user.userName}</span>!
+          Welcome, <span className="text-blue-600">{user.firstName}{" "}{user.lastName}</span>!
         </div>
           : <div className="flex space-x-6 mb-6">
             <Link to="/login">

@@ -10,6 +10,8 @@ import Login from './pages/Login';
 import NotFoundPage from './pages/NotFoundPage';
 import { useContext } from 'react';
 import { UserContext } from './ContextAPI/UserContext';
+import { PrivateRoute } from "./pages/PrivateRoute"
+import { Dashboard } from './pages/Dashboard';
 
 function App() {
 
@@ -22,7 +24,9 @@ function App() {
           <Route path='/' element={<HomePage />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/login' element={<Login />} />
+          <Route element={<PrivateRoute><Dashboard /></PrivateRoute>}>
 
+          </Route>
           <Route path='*' element={<NotFoundPage />}></Route>
         </Routes>
       </Router>
