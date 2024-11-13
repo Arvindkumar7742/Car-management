@@ -8,10 +8,11 @@ exports.signup = async (req, res) => {
     try {
         // Destructure fields from the request body
         const {
+            email,
             firstName,
             lastName,
-            email,
             password,
+            address
         } = req.body;
 
         // Check if All Details are there or not
@@ -21,6 +22,7 @@ exports.signup = async (req, res) => {
             !email ||
             !password
         ) {
+            console.log("printing the req body email::",req);
             return res.status(403).send({
                 success: false,
                 message: "All Fields are required",
@@ -45,6 +47,7 @@ exports.signup = async (req, res) => {
             lastName,
             email,
             password: hashedPassword,
+            address
         });
 
         return res.status(200).json({
