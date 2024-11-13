@@ -43,6 +43,8 @@ export async function login(email, password) {
 
     //kya use context yaha use ker skte hai kya?? -- ithink ker skte hai to login user function ko yaha bhejo
     toast.success("Login Successfully");
+    toast.dismiss(toastId);
+    return res.data.user;
   } catch (error) {
     console.log("LOGIN API ERROR............", error)
     toast.error(error.response.data.message);

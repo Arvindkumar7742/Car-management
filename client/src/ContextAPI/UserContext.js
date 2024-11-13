@@ -3,20 +3,20 @@ import { createContext, useState, useEffect } from 'react';
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("blog-user")));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("carManage-user")));
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("blog-user"));
+    const storedUser = JSON.parse(localStorage.getItem("carManage-user"));
     setUser(storedUser);
   }, []);
 
   const loginUser = (userData) => {
-    localStorage.setItem("blog-user", JSON.stringify(userData));
+    localStorage.setItem("carManage-user", JSON.stringify(userData));
     setUser(userData);
   };
 
   const logoutUser = () => {
-    localStorage.removeItem("blog-user");
+    localStorage.removeItem("carManage-user");
     setUser(null);
   };
 

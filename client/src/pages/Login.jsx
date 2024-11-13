@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../ContextAPI/UserContext";
+import { login } from "../services/operations/authOperation";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 function Login() {
 
@@ -9,6 +11,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, loginUser } = useContext(UserContext);
+  const [showPassword, setShowPassword] = useState(false);
 
   const validateEmail = () => {
     var regex = /^([a-zA-z0-9\._]+)@([a-zA-z0-9]+)\.([a-z]+)(\.([a-z]+))?$/
@@ -24,8 +27,9 @@ function Login() {
   async function submitHandler(e) {
     e.preventDefault();
     if (validateEmail) {
-
-      //need to login the user
+      const result = await login(email,password);
+      loginUser(result);
+      navigate("/dashboard/my-profile");
       setEmail("");
       setPassword("");
       return;
@@ -65,21 +69,27 @@ function Login() {
             />
           </div>
 
-          {/* Password */}
-          <div className="mb-6">
+          <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-2" htmlFor="password">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              placeholder="Enter your password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={password}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                placeholder="Enter your password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <span
+                className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+              </span>
+            </div>
           </div>
 
           {/* Submit Button */}
