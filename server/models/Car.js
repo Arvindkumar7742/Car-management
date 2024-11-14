@@ -10,7 +10,7 @@ const carSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        carOwner: {
+        user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: true,
@@ -19,7 +19,7 @@ const carSchema = new mongoose.Schema(
             type: [String],
             required: true
         },
-        carType: {
+        type: {
             type: String,
             default:""
         },
