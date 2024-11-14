@@ -58,11 +58,13 @@ function HomePage() {
 
         {/* Buttons */}
         <div className="flex justify-center gap-4 mt-6 flex-wrap">
-          <Link to="/dashboard/my-profile">
+          {
+            user && <Link to="/dashboard/my-profile">
             <button className="px-8 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300">
               Go to Dashboard
             </button>
-          </Link>
+          </Link> 
+          }
           <Link to="/cars">
             <button className="px-8 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300">
               Browse Cars
