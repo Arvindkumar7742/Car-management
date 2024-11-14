@@ -8,7 +8,7 @@ exports.registerCar = async (req, res) => {
     try {
         // Destructure fields from the request body
         const {
-            title, description, carOwner, tags, carType, company, dealer
+            title, description, user, tags, type, company, dealer
         } = req.body;
 
         // Check if All Details are there or not
@@ -17,7 +17,7 @@ exports.registerCar = async (req, res) => {
         if (
             !title ||
             !description ||
-            !carOwner ||
+            !user ||
             !tags ||
             !images
         ) {
@@ -43,14 +43,14 @@ exports.registerCar = async (req, res) => {
 
         //register the car
         const registeredCar = await Car.create({
-            title, description, carOwner, tags, carType, company, dealer,
+            title, description, user, tags, type, company, dealer,
             images: uploadedPhotos,
         })
 
         //push this car to the user
-        const user = await User.findById(carOwner);
-        user.cars.push(registeredCar._id);
-        user.save();
+        const carOwner = await User.findById(user);
+        carOwner.cars.push(registeredCar._id);
+        carOwner.save();
 
         //return the successful response
         return res.status(200).json({
@@ -75,7 +75,6 @@ exports.getUserCars = async (req, res) => {
 
         //fetch the user's id from request's params
         const { userId } = req.query;
-        console.log("userId:::",req.query);
 
         //check if the user's exist
         const userExist = await User.findById(userId).populate("cars");
