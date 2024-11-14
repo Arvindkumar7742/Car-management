@@ -1,5 +1,5 @@
 const express = require("express")
-const { registerCar, getUserCars, getAllCars, deleteCar } = require("../controllers/Car")
+const { registerCar, getUserCars, getAllCars, deleteCar, editCar } = require("../controllers/Car")
 const router = express.Router()
 
 
@@ -11,6 +11,8 @@ router.get("/getUserCars", getUserCars);
 router.get("/getAllCars",getAllCars);
 //get all the cars
 router.delete("/deleteCar",deleteCar);
+//edit a car
+router.post("/editCar",editCar);
 
 // Export the router for use in the main application
 module.exports = router
