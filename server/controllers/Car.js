@@ -140,9 +140,9 @@ exports.editCar = async (req, res) => {
 
         //return the successful response
         return res.status(200).json({
-            success:true,
-            message:"Car updated successfully",
-            data:carExist
+            success: true,
+            message: "Car updated successfully",
+            data: carExist
         })
 
     } catch (error) {
@@ -227,6 +227,37 @@ exports.deleteCar = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Cannot able to delete a car.",
+        });
+    }
+};
+
+//get a particular car
+exports.fetchCarData = async (req, res) => {
+    try {
+
+        const carId = req.query.carId;
+
+        const car = await Car.findById(carId);
+
+        if (!car) {
+            return res.status(400).json({
+                success: false,
+                message: "Cars data is not fetched",
+            })
+        }
+
+        //return the successful response
+        return res.status(200).json({
+            success: true,
+            message: "Cars deleted successfully successfully",
+            car:car
+        })
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Cannot able to fetch a car.",
         });
     }
 };
