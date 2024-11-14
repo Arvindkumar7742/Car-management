@@ -92,3 +92,51 @@ export async function deleteCar(
     toast.dismiss(toastId);
   }
 }
+
+export async function fetchCarDetails(
+  carId
+) {
+  {
+    const toastId = toast.loading("loading....");
+    console.log("card id here",carId);
+    try {
+      const res = await apiconnector("GET", car.FETCH_CAR_DATA, null, null, { carId });
+
+      console.log("res:::=====>>>>>", res);
+      if (!res.data.success) {
+        throw new Error(res.data.message);
+      }
+
+      toast.dismiss(toastId);
+      return res.data.car;
+    } catch (error) {
+      console.log("DELETE CAR API ERROR............", error)
+      toast.error(error.response.data.message);
+    }
+    toast.dismiss(toastId);
+  }
+}
+
+export async function fetchAllCars(
+  carId
+) {
+  {
+    const toastId = toast.loading("loading....");
+    console.log("card id here",carId);
+    try {
+      const res = await apiconnector("GET", car.GET_ALL_CARS_API);
+
+      console.log("res:::=====>>>>>", res);
+      if (!res.data.success) {
+        throw new Error(res.data.message);
+      }
+
+      toast.dismiss(toastId);
+      return res.data.cars;
+    } catch (error) {
+      console.log("DELETE CAR API ERROR............", error)
+      toast.error(error.response.data.message);
+    }
+    toast.dismiss(toastId);
+  }
+}

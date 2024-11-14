@@ -15,6 +15,8 @@ import { Dashboard } from './pages/Dashboard';
 import MyProfile from './dashboard/MyProfile';
 import { AddCar } from './dashboard/AddCar/AddCar';
 import { YourCars } from './dashboard/Yourcars/YourCars';
+import { CarDetails } from './pages/CarDetails';
+import { CarsPage } from './pages/CarsPage';
 
 function App() {
 
@@ -33,6 +35,8 @@ function App() {
             <Route path="/dashboard/your-cars" element={<YourCars />}></Route>
             <Route path="/dashboard/edit-car" element={<AddCar />}></Route>
           </Route>
+          <Route path="/car-details/:carId" element={<CarDetails />}></Route>
+          <Route path="/cars" element={<CarsPage />}></Route>
           <Route path='*' element={<NotFoundPage />}></Route>
         </Routes>
       </Router>
