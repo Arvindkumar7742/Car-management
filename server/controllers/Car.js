@@ -123,7 +123,7 @@ exports.getAllCars = async (req, res) => {
 
         //return the successful response
         return res.status(200).json({
-            success: false,
+            success: true,
             message: "Cars data fetched successfully",
             cars: cars,
         })
@@ -132,6 +132,28 @@ exports.getAllCars = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Cannot able to get all the cars.",
+        });
+    }
+};
+
+//Delete a car
+exports.deleteCar = async (req, res) => {
+    try {
+
+        const carId = req.query.carId;
+
+        const car = await Car.findByIdAndDelete(carId);
+
+        //return the successful response
+        return res.status(200).json({
+            success: true,
+            message: "Cars deleted successfully successfully",
+        })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Cannot able to delete a car.",
         });
     }
 };
