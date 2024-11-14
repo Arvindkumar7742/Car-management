@@ -7,11 +7,13 @@ import { CarContext } from "../../ContextAPI/CarContext";
 import MultiImageUpload from "./MultiImageUpload"
 import { RegisterCar } from "../../services/operations/carOperations"
 import { UserContext } from "../../ContextAPI/UserContext"
+import { useNavigate } from "react-router-dom"
 
 export const AddCar = () => {
   const { car, editCar } = useContext(CarContext);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -99,7 +101,11 @@ export const AddCar = () => {
     formData.append("title", data.carTitle)
     formData.append("description", data.carDescription)
     formData.append("user",user._id);
-    formData.append("tags", data.carTags)
+    if (data.carTags && data.carTags.length > 0) {
+      data.carTags.forEach((tag, index) => {
+        formData.append("tags", tag);
+      });
+    }
     formData.append("type", data.carType)
     formData.append("company", data.carCompany)
     formData.append("dealer", data.carDealer)
@@ -114,7 +120,7 @@ export const AddCar = () => {
     if (result) {
       setLoading(false);
       reset();
-      nav
+      navigate("/dashboard/your-cars");
       return;
     }
     setLoading(false)

@@ -76,7 +76,7 @@ export default function MultiImageUpload({
         htmlFor={name}
         className="block cursor-pointer rounded-md bg-indigo-400 p-4 text-center text-md text-indigo-900"
       >
-        Click to browse files or drag images here
+        Click to browse files
         <p className="mt-1 text-sm text-indigo-800">You can upload up to 10 images</p>
       </label>
 
