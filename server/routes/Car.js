@@ -14,7 +14,7 @@ router.delete("/deleteCar",deleteCar);
 //edit a car
 router.post("/editCar",editCar);
 //get a car
-router.post("/getCarDetail",fetchCarData);
+router.get("/getCarDetail",fetchCarData);
 
 // Export the router for use in the main application
 module.exports = router

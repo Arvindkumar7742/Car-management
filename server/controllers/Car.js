@@ -237,7 +237,7 @@ exports.fetchCarData = async (req, res) => {
 
         const carId = req.query.carId;
 
-        const car = await Car.findById(carId);
+        const car = await Car.findById(carId).populate("user");
 
         if (!car) {
             return res.status(400).json({
