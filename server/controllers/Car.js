@@ -30,8 +30,20 @@ exports.registerCar = async (req, res) => {
         const uploadedPhotos = [];
 
         //uploading all the images on cloudinary
-        for (let i = 0; i < images.length; i++) {
-            const uploaded = await uploadOnCloudinary(images[i]);
+        if(images.length){
+            for (let i = 0; i < images.length; i++) {
+                const uploaded = await uploadOnCloudinary(images[i]);
+                if (!uploaded || !uploaded.secure_url) {
+                    return res.status(500).json({
+                        success: false,
+                        message: "Image upload failed."
+                    });
+                }
+                uploadedPhotos.push(uploaded.secure_url);
+            }
+        }
+        else{
+            const uploaded = await uploadOnCloudinary(images);
             if (!uploaded || !uploaded.secure_url) {
                 return res.status(500).json({
                     success: false,
