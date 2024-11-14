@@ -14,7 +14,7 @@ import { PrivateRoute } from "./pages/PrivateRoute"
 import { Dashboard } from './pages/Dashboard';
 import MyProfile from './dashboard/MyProfile';
 import { YourCars } from './dashboard/YourCars';
-import { AddCar } from './dashboard/AddCar';
+import { AddCar } from './dashboard/AddCar/AddCar';
 
 function App() {
 
