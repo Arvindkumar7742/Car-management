@@ -5,16 +5,20 @@ import { MdNavigateNext } from "react-icons/md"
 import ChipInput from "./ChipInput"
 import { CarContext } from "../../ContextAPI/CarContext";
 import MultiImageUpload from "./MultiImageUpload"
+import { RegisterCar } from "../../services/operations/carOperations"
+import { UserContext } from "../../ContextAPI/UserContext"
 
 export const AddCar = () => {
   const { car, editCar } = useContext(CarContext);
   const [loading, setLoading] = useState(false);
+  const { user } = useContext(UserContext);
 
   const {
     register,
     handleSubmit,
     setValue,
     getValues,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -45,7 +49,7 @@ export const AddCar = () => {
 
   const onSubmit = async (data) => {
 
-    console.log("printing the data::",data);
+    console.log("printing the data::", data);
     if (editCar) {
       console.log("Hum yha hai", 0);
       if (isFormUpdated()) {
@@ -94,17 +98,24 @@ export const AddCar = () => {
     const formData = new FormData()
     formData.append("title", data.carTitle)
     formData.append("description", data.carDescription)
+    formData.append("user",user._id);
     formData.append("tags", data.carTags)
     formData.append("type", data.carType)
     formData.append("company", data.carCompany)
     formData.append("dealer", data.carDealer)
-    formData.append("images", data.carImages)
-    setLoading(true)
+    if (data.carImages && data.carImages.length > 0) {
+      data.carImages.forEach((file, index) => {
+        formData.append("images", file);
+      });
+    }
+    setLoading(true);
 
-    const result = false;
-    //Car ko register kerna hai
+    const result = await RegisterCar(formData);
     if (result) {
-      // course register ho gya hai
+      setLoading(false);
+      reset();
+      nav
+      return;
     }
     setLoading(false)
   }
@@ -195,13 +206,13 @@ export const AddCar = () => {
         </div>
 
         <MultiImageUpload
-        name="carImages"
-        label="Car Image"
-        register={register}
-        setValue={setValue}
-        errors={errors}
-        editData={editCar ? car?.images : null}
-      />
+          name="carImages"
+          label="Car Image"
+          register={register}
+          setValue={setValue}
+          errors={errors}
+          editData={editCar ? car?.images : null}
+        />
 
         {/* Car Dealer */}
         <div className="flex flex-col space-y-2">
