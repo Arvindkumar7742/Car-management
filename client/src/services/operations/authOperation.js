@@ -34,6 +34,7 @@ export async function login(email, password) {
 
   const toastId = toast.loading("Loading...")
   try {
+    console.log("printing the login api::",auth.LOGIN_API);
     const res = await apiconnector("POST", auth.LOGIN_API, { email, password });
 
     console.log("res:::=====>>>>>", res);

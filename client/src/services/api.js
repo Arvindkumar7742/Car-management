@@ -1,4 +1,4 @@
-const base_url = "https://car-management-t884.onrender.com";
+const base_url = "https://car-management-km71.onrender.com/api/v1";
 
 export const auth ={
     LOGIN_API: base_url + '/auth/login',

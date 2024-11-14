@@ -1,12 +1,24 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../ContextAPI/UserContext";
+import { FaArrowRight } from 'react-icons/fa';
 
 function HomePage() {
   const { user } = useContext(UserContext);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-200 flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-200 flex flex-col items-center justify-center relative">
+      <a
+        href="https://documenter.getpostman.com/view/35356423/2sAY55Zx7X"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute top-4 right-4"
+      >
+        <button className="px-6 py-3 flex flex-row gap-2 justify-center items-center bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700 transition duration-300 shadow-md">
+        <span>API Documentation</span> <FaArrowRight/>
+        </button>
+      </a>
+
       <header className="text-center mb-12">
         <h1 className="text-5xl font-bold text-blue-800 mb-4">Welcome to Car Management!</h1>
         <p className="text-lg text-gray-700">
