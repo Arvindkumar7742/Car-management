@@ -11,13 +11,13 @@ export default function ChipInput({
   setValue,
   getValues,
 }) {
-  const { editCourse, course } = useContext(CarContext);
+  const { editCar, car } = useContext(CarContext);
 
   const [chips, setChips] = useState([]);
 
   useEffect(() => {
-    if (editCourse) {
-      setChips(course?.tags || []);
+    if (editCar) {
+      setChips(car?.tags || []);
     }
     register(name, { required: true, validate: (value) => value.length > 0 });
     // eslint-disable-next-line react-hooks/exhaustive-deps

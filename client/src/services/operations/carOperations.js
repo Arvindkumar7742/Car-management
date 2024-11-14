@@ -3,13 +3,12 @@ const { apiconnector } = require("../apiConnector");
 const { car } = require("../api");
 
 export async function RegisterCar(
-   formData
+  formData
 ) {
   {
     const toastId = toast.loading("loading....");
     try {
-        console.log("data kldlnk",formData);
-      const res = await apiconnector("POST", car.REGISTER_CAR_API,formData);
+      const res = await apiconnector("POST", car.REGISTER_CAR_API, formData);
 
       console.log("res:::=====>>>>>", res);
       if (!res.data.success) {
@@ -20,7 +19,74 @@ export async function RegisterCar(
       toast.dismiss(toastId);
       return res.data.data;
     } catch (error) {
-      console.log("SIGNUP API ERROR............", error)
+      console.log("CAR REGISTER API ERROR............", error)
+      toast.error(error.response.data.message);
+    }
+    toast.dismiss(toastId);
+  }
+}
+
+export async function getUserCarsDetails(
+  userId
+) {
+  {
+    const toastId = toast.loading("loading....");
+    try {
+      const res = await apiconnector("GET", car.GET_USER_CARS_API, null, null, { userId });
+
+      console.log("res:::=====>>>>>", res);
+      if (!res.data.success) {
+        throw new Error(res.data.message);
+      }
+
+      toast.dismiss(toastId);
+      return res.data.cars;
+    } catch (error) {
+      console.log("GET CAR DATA API ERROR............", error)
+      toast.error(error.response.data.message);
+    }
+    toast.dismiss(toastId);
+  }
+}
+
+export async function editACar(formData) {
+  {
+    const toastId = toast.loading("loading....");
+    try {
+      const res = await apiconnector("POST", car.EDIT_CAR_API, formData);
+
+      console.log("res:::=====>>>>>", res);
+      if (!res.data.success) {
+        throw new Error(res.data.message);
+      }
+
+      toast.dismiss(toastId);
+      return res.data.data;
+    } catch (error) {
+      console.log("DELETE CAR API ERROR............", error)
+      toast.error(error.response.data.message);
+    }
+    toast.dismiss(toastId);
+  }
+}
+
+export async function deleteCar(
+  carId
+) {
+  {
+    const toastId = toast.loading("loading....");
+    try {
+      const res = await apiconnector("DELETE", car.DELETE_CAR_API, null, null, { carId });
+
+      console.log("res:::=====>>>>>", res);
+      if (!res.data.success) {
+        throw new Error(res.data.message);
+      }
+
+      toast.dismiss(toastId);
+      return res.data.cars;
+    } catch (error) {
+      console.log("DELETE CAR API ERROR............", error)
       toast.error(error.response.data.message);
     }
     toast.dismiss(toastId);

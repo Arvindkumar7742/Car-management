@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { CarContext } from "../../ContextAPI/CarContext";
 
 export default function MultiImageUpload({
   name,
@@ -10,6 +11,7 @@ export default function MultiImageUpload({
   viewData = null,
   editData = null,
 }) {
+  const { editCar, car,setCar } = useContext(CarContext);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewSources, setPreviewSources] = useState(
     viewData ? viewData : editData ? editData : []
@@ -42,15 +44,27 @@ export default function MultiImageUpload({
     const updatedPreviews = [...previewSources];
     const updatedFiles = [...selectedFiles];
 
+    console.log(updatedFiles);
     updatedPreviews.splice(index, 1);
     updatedFiles.splice(index, 1);
+    console.log("updatedFiles::",updatedFiles);
+    console.log("updatedPreviews::",updatedPreviews);
 
     setPreviewSources(updatedPreviews);
     setSelectedFiles(updatedFiles);
   };
 
   useEffect(() => {
-    register(name, { required: true });
+    if(editCar){
+      console.log(editCar,car);
+      setValue(name, car?.images);
+    }
+  }, []);
+
+  useEffect(() => {
+    if(!editCar){
+      register(name, { required: true });
+    }
   }, [register, name]);
 
   useEffect(() => {

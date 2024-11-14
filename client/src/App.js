@@ -13,8 +13,8 @@ import { UserContext } from './ContextAPI/UserContext';
 import { PrivateRoute } from "./pages/PrivateRoute"
 import { Dashboard } from './pages/Dashboard';
 import MyProfile from './dashboard/MyProfile';
-import { YourCars } from './dashboard/YourCars';
 import { AddCar } from './dashboard/AddCar/AddCar';
+import { YourCars } from './dashboard/Yourcars/YourCars';
 
 function App() {
 
@@ -31,6 +31,7 @@ function App() {
             <Route path="/dashboard/my-profile" element={<MyProfile />}></Route>
             <Route path="/dashboard/add-car" element={<AddCar />}></Route>
             <Route path="/dashboard/your-cars" element={<YourCars />}></Route>
+            <Route path="/dashboard/edit-car" element={<AddCar />}></Route>
           </Route>
           <Route path='*' element={<NotFoundPage />}></Route>
         </Routes>

@@ -5,15 +5,16 @@ import { MdNavigateNext } from "react-icons/md"
 import ChipInput from "./ChipInput"
 import { CarContext } from "../../ContextAPI/CarContext";
 import MultiImageUpload from "./MultiImageUpload"
-import { RegisterCar } from "../../services/operations/carOperations"
+import { editACar, RegisterCar } from "../../services/operations/carOperations"
 import { UserContext } from "../../ContextAPI/UserContext"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 export const AddCar = () => {
-  const { car, editCar } = useContext(CarContext);
+  const { car, editCar, setEditCar } = useContext(CarContext);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     register,
@@ -25,7 +26,18 @@ export const AddCar = () => {
   } = useForm();
 
   useEffect(() => {
-    if (editCar) {
+    if (location.pathname === "/dashboard/add-car") {
+      reset({
+        carTitle: "",
+        carDescription: "",
+        carTags: [],
+        carType: "",
+        carCompany: "",
+        carDealer: "",
+        carImages: [],
+      });
+      setEditCar(false);
+    } else if (editCar) {
       setValue("carTitle", car.title);
       setValue("carDescription", car.description);
       setValue("carTags", car.tags);
@@ -34,7 +46,7 @@ export const AddCar = () => {
       setValue("carDealer", car.dealer);
       setValue("carImages", car.images);
     }
-  }, []);
+  }, [location.pathname]);
 
   const isFormUpdated = () => {
     const currentValues = getValues();
@@ -51,9 +63,8 @@ export const AddCar = () => {
 
   const onSubmit = async (data) => {
 
-    console.log("printing the data::", data);
     if (editCar) {
-      console.log("Hum yha hai", 0);
+      console.log("printing the data after editing::", data);
       if (isFormUpdated()) {
         const currentValues = getValues()
         const formData = new FormData()
@@ -66,7 +77,11 @@ export const AddCar = () => {
           formData.append("description", data.carDescription)
         }
         if (currentValues.carTags.toString() !== car.tags.toString()) {
-          formData.append("tags", data.carTags)
+          if (data.carTags && data.carTags.length > 0) {
+            data.carTags.forEach((tag, index) => {
+              formData.append("tags", tag);
+            });
+          }
         }
         if (currentValues.carType !== car.type) {
           formData.append("type", data.carType)
@@ -78,18 +93,17 @@ export const AddCar = () => {
           formData.append("dealer", data.carDealer)
         }
         if (currentValues.carImages.toString() !== car.images.toString()) {
-          formData.append(
-            "images",
-            data.carImages
-          )
+          if (data.carImages && data.carImages.length > 0) {
+            data.carImages.forEach((file, index) => {
+              formData.append("images", file);
+            });
+          }
         }
-        // console.log("Edit Form data: ", formData)
-        setLoading(true)
-        const result = false;
-        //edit vali request kerni hai
-        setLoading(false)
+
+        const result = await editACar(formData);
         if (result) {
-          //course edit ho gya hai
+          toast.success("car updated successfully");
+          navigate("/dashboard/your-cars")
         }
       } else {
         toast.error("No changes made to the form")
@@ -100,7 +114,7 @@ export const AddCar = () => {
     const formData = new FormData()
     formData.append("title", data.carTitle)
     formData.append("description", data.carDescription)
-    formData.append("user",user._id);
+    formData.append("user", user._id);
     if (data.carTags && data.carTags.length > 0) {
       data.carTags.forEach((tag, index) => {
         formData.append("tags", tag);
@@ -129,7 +143,7 @@ export const AddCar = () => {
   return (
     <>
       <h1 className="text-center text-indigo-800 text-3xl font-extrabold tracking-wide mb-8">
-        Register a New <span className="text-indigo-600 underline decoration-from-font">Car</span>
+        {editCar ? "Edit your" : "Register a New"} <span className="text-indigo-600 underline decoration-from-font">Car</span>
       </h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -240,6 +254,9 @@ export const AddCar = () => {
         <div className="flex flex-col-reverse gap-4 md:flex-row md:justify-end">
           {editCar && (
             <button
+              onClick={() => {
+                navigate("/dashboard/your-cars");
+              }}
               type="button"
               disabled={loading}
               className="w-full rounded-md bg-gray-200 py-2 px-6 text-center text-indigo-600 transition duration-300 hover:bg-gray-300 md:w-auto"
