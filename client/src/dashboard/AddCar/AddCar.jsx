@@ -10,7 +10,7 @@ import { UserContext } from "../../ContextAPI/UserContext"
 import { useLocation, useNavigate } from "react-router-dom"
 
 export const AddCar = () => {
-  const { car, editCar, setEditCar } = useContext(CarContext);
+  const { car, editCar, setEditCarByUSer } = useContext(CarContext);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ export const AddCar = () => {
         carDealer: "",
         carImages: [],
       });
-      setEditCar(false);
+      setEditCarByUSer(null,false)
     } else if (editCar) {
       setValue("carTitle", car.title);
       setValue("carDescription", car.description);
@@ -188,6 +188,7 @@ export const AddCar = () => {
           name="carTags"
           placeholder="Enter Tags and press Enter"
           register={register}
+          reset={reset}
           errors={errors}
           setValue={setValue}
           getValues={getValues}
@@ -255,6 +256,7 @@ export const AddCar = () => {
           {editCar && (
             <button
               onClick={() => {
+                setEditCarByUSer(null,false);
                 navigate("/dashboard/your-cars");
               }}
               type="button"

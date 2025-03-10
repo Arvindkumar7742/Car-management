@@ -1,27 +1,41 @@
 import { useContext, useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { CarContext } from "../../ContextAPI/CarContext";
+import { useLocation } from "react-router-dom";
 
 export default function ChipInput({
   label,
   name,
   placeholder,
   register,
+  reset,
   errors,
   setValue,
   getValues,
 }) {
-  const { editCar, car } = useContext(CarContext);
+  const { editCar, car,setEditCar } = useContext(CarContext);
+  const location = useLocation();
 
   const [chips, setChips] = useState([]);
 
   useEffect(() => {
-    if (editCar) {
+    if (location.pathname === "/dashboard/add-car") {
+      reset({
+        carTitle: "",
+        carDescription: "",
+        carTags: [],
+        carType: "",
+        carCompany: "",
+        carDealer: "",
+        carImages: [],
+      });
+      setEditCar(false);
+    } 
+    else if(editCar){
       setChips(car?.tags || []);
     }
     register(name, { required: true, validate: (value) => value.length > 0 });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     setValue(name, chips);

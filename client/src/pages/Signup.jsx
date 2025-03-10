@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../ContextAPI/UserContext";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { Signup } from "../services/operations/authOperation";
+import mixpanel from "mixpanel-browser";
 
 function SignUp() {
-
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -26,13 +26,33 @@ function SignUp() {
     e.preventDefault();
     if (validateEmail()) {
       try {
-        await Signup( firstName, lastName, email, password,address );
+        await Signup(firstName, lastName, email, password, address);
         setFirstName("");
         setLastName("");
         setAddress("");
         setEmail("");
         setPassword("");
         navigate("/login");
+
+        mixpanel.identify(email);
+
+        // ✅ Set user properties in Mixpanel (optional but useful)
+        mixpanel.people.set({
+          $first_name: firstName,
+          $last_name: lastName,
+          $email: email,
+          $created: new Date().toISOString(), // When the user signed up
+          Address: address,
+        });
+
+        // ✅ Track the signup event
+        mixpanel.track("User Signed Up", {
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          address: address,
+          signupMethod: "Email", // You can modify this if other signup methods exist
+        });
       } catch (error) {
         console.log("error while calling signUp in the login page::", error);
       }
@@ -52,13 +72,20 @@ function SignUp() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-200">
       <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8 mt-7 mb-7">
-        <h2 className="text-3xl font-bold text-center text-indigo-700 mb-6">Welcome to Car Management!</h2>
-        <p className="text-center text-gray-500 mb-8">Create an account to start your journey</p>
+        <h2 className="text-3xl font-bold text-center text-indigo-700 mb-6">
+          Welcome to Car Management!
+        </h2>
+        <p className="text-center text-gray-500 mb-8">
+          Create an account to start your journey
+        </p>
 
         <form onSubmit={submitHandler}>
           {/* First Name */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2" htmlFor="firstName">
+            <label
+              className="block text-gray-700 font-medium mb-2"
+              htmlFor="firstName"
+            >
               First Name
             </label>
             <input
@@ -74,7 +101,10 @@ function SignUp() {
 
           {/* Last Name */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2" htmlFor="lastName">
+            <label
+              className="block text-gray-700 font-medium mb-2"
+              htmlFor="lastName"
+            >
               Last Name
             </label>
             <input
@@ -90,7 +120,10 @@ function SignUp() {
 
           {/* Email */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2" htmlFor="email">
+            <label
+              className="block text-gray-700 font-medium mb-2"
+              htmlFor="email"
+            >
               Email Address
             </label>
             <input
@@ -106,7 +139,10 @@ function SignUp() {
 
           {/* Password */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2" htmlFor="password">
+            <label
+              className="block text-gray-700 font-medium mb-2"
+              htmlFor="password"
+            >
               Password
             </label>
             <div className="relative">
@@ -130,7 +166,10 @@ function SignUp() {
 
           {/* Address */}
           <div className="mb-6">
-            <label className="block text-gray-700 font-medium mb-2" htmlFor="address">
+            <label
+              className="block text-gray-700 font-medium mb-2"
+              htmlFor="address"
+            >
               Address
             </label>
             <textarea
@@ -155,7 +194,10 @@ function SignUp() {
         {/* Already have an account? */}
         <p className="text-center text-gray-600 mt-4">
           Already have an account?{" "}
-          <Link to="/login" className="text-indigo-600 font-semibold hover:underline">
+          <Link
+            to="/login"
+            className="text-indigo-600 font-semibold hover:underline"
+          >
             Log in
           </Link>
         </p>
